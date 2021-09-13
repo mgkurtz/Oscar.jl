@@ -1,6 +1,5 @@
 import Hecke:
     abelian_group,
-    automorphism_group,
     center,
     codomain,
     cokernel,

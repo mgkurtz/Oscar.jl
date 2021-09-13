@@ -729,7 +729,6 @@ function fp_group(c::CoChain{2})
   return extension(c)[1]
 end
 
-
 function Oscar.automorphism_group(::Type{PermGroup}, k::NumField)
   G, mG = automorphism_group(k)
   H = symmetric_group(degree(k))

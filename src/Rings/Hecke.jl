@@ -1,5 +1,5 @@
 exclude = [:Nemo, :AbstractAlgebra, :Rational, :change_uniformizer, :genus_symbol, :data,
-    :isdefintie, :narrow_class_group]
+           :isdefintie, :narrow_class_group, :automorphism_group]
 
 for i in names(Hecke)
   i in exclude && continue
