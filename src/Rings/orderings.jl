@@ -959,7 +959,7 @@ function _cmp_monomials(f::MPolyElem, k::Int, l::Int, o::Oscar.Orderings.GenOrde
             end
           end
       elseif o.ord == :negwdeglex
-         if dk > dl
+         if dk < dl
             return -1
           elseif dk < dl
             return 1
