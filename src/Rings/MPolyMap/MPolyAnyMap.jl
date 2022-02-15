@@ -121,7 +121,7 @@ end
 # map_coefficients(coefficient_map(F), f), which is a polynomial over
 # codomain(coefficient_map(F)).
 
-function temp_ring(f::MPolyAnyMap{<:Any, <: Any, <: Map}) where {D, C}
+function temp_ring(f::MPolyAnyMap{<:Any, <: Any, <: Map})
   if isdefined(f, :temp_ring)
     return f.temp_ring::mpoly_ring_type(codomain(coefficient_map(f)))
   end
@@ -216,3 +216,21 @@ function compose(F::MPolyAnyMap{D, C, <: Function}, G::MPolyAnyMap{C, E, <: Func
   @req codomain(F) === domain(F) "Incompatible (co)domain in composition"
   return hom(domain(F), codomain(G), x -> coefficient_map(G)(coefficient_map(F)(x)), G.(_images(F)))
 end
+
+################################################################################
+#
+#  Types computers
+#
+################################################################################
+
+function morphism_type(::Type{D}, ::Type{C}) where {D <: MPolyRing, C <: NCRing}
+  return MPolyAnyMap{D, C, Nothing, elem_type(C)}
+end
+
+morphism_type(::D, ::C) where {D <: MPolyRing, C <: NCRing} = morphism_type(D, C)
+
+function morphism_type(::Type{D}, ::Type{C}, f::Type{F}) where {D <: MPolyRing, C <: NCRing, F}
+  return MPolyAnyMap{D, C, F, elem_type(C)}
+end
+
+morphism_type(::D, ::C, ::F) where {D <: MPolyRing, C <: NCRing, F} = morphism_type(D, C, F)
