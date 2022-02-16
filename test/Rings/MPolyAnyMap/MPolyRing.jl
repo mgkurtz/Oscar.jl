@@ -128,6 +128,12 @@
     @test fg(y) == g(f(y))
     @test fg(z1) == g(f(z1))
     @test fg(z2) == g(f(z2))
+
+    f = hom(Kx, Kx, [y, x])
+    g = hom(Kx, K, [K(1), K(1)])
+    fg = @inferred f * g
+    @test fg(x) == g(f(x))
+    @test fg(y) == g(f(y))
   end
 
   # composition with coefficient map

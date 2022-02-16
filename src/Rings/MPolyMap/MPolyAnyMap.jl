@@ -121,12 +121,16 @@ end
 # map_coefficients(coefficient_map(F), f), which is a polynomial over
 # codomain(coefficient_map(F)).
 
+_nvars(R::MPolyRing) = nvars(R)
+
+_nvars(R::MPolyQuo) = nvars(R.R)
+
 function temp_ring(f::MPolyAnyMap{<:Any, <: Any, <: Map})
   if isdefined(f, :temp_ring)
     return f.temp_ring::mpoly_ring_type(codomain(coefficient_map(f)))
   end
 
-  S, = PolynomialRing(codomain(coefficient_map(f)), nvars(domain(f)))
+  S, = PolynomialRing(codomain(coefficient_map(f)), _nvars(domain(f)))
   f.temp_ring = S
   return S
 end
@@ -217,20 +221,36 @@ function compose(F::MPolyAnyMap{D, C, <: Function}, G::MPolyAnyMap{C, E, <: Func
   return hom(domain(F), codomain(G), x -> coefficient_map(G)(coefficient_map(F)(x)), G.(_images(F)))
 end
 
+# Now compose with arbitrary maps
+
+# I technically cannot do the Nothing version
+
+# I can only do the Map version of the coefficient map has codomain C
+function compose(F::MPolyAnyMap{D, C, <: Map, <: Any}, G::S) where {D, C, S <: Map{C, <: Any}}
+  @req codomain(F) === domain(G) "Incompatible (co)domain in composition"
+  f = coefficient_map(F)
+  if typeof(codomain(F)) === C
+    newcoeffmap = compose(f, G)
+    return hom(domain(F), codomain(G), newcoeffmap, G.(_images(F)))
+  else
+    return Generic.CompositeMap(F, G)
+  end
+end
+
 ################################################################################
 #
 #  Types computers
 #
 ################################################################################
 
-function morphism_type(::Type{D}, ::Type{C}) where {D <: MPolyRing, C <: NCRing}
+function morphism_type(::Type{D}, ::Type{C}) where {D <: Union{MPolyRing, MPolyQuo}, C <: NCRing}
   return MPolyAnyMap{D, C, Nothing, elem_type(C)}
 end
 
-morphism_type(::D, ::C) where {D <: MPolyRing, C <: NCRing} = morphism_type(D, C)
+morphism_type(::D, ::C) where {D <: Union{MPolyRing, MPolyQuo}, C <: NCRing} = morphism_type(D, C)
 
-function morphism_type(::Type{D}, ::Type{C}, f::Type{F}) where {D <: MPolyRing, C <: NCRing, F}
+function morphism_type(::Type{D}, ::Type{C}, f::Type{F}) where {D <: Union{MPolyRing, MPolyQuo}, C <: NCRing, F}
   return MPolyAnyMap{D, C, F, elem_type(C)}
 end
 
-morphism_type(::D, ::C, ::F) where {D <: MPolyRing, C <: NCRing, F} = morphism_type(D, C, F)
+morphism_type(::D, ::C, ::F) where {D <: Union{MPolyRing, MPolyQuo}, C <: NCRing, F} = morphism_type(D, C, F)

@@ -9,13 +9,65 @@ const AffAlgHom = MPolyAnyMap{DT, CT, Nothing} where {T <: FieldElem,
                                                        DT <: Union{MPolyRing{T}, MPolyQuo{U}},
                                                        CT <: Union{MPolyRing{T}, MPolyQuo{U}}}
 
-affine_algebra_morphism_type(::Type{T}) where {T <: Union{MPolyRing, MPolyQuo}} = MPolyAnyMap{T, T, Nothing, elem_type(T)}
+affine_algebra_morphism_type(::Type{T}) where {T <: Union{MPolyRing, MPolyQuo}} = morphism_type(T, T)
 
-affine_algebra_morphism_type(R::T) where {T} = affine_algebra_morphism_type(T)
+affine_algebra_morphism_type(::T) where {T} = affine_algebra_morphism_type(T)
 
-affine_algebra_morphism_type(::Type{S}, ::Type{T}) where {S <: Union{MPolyRing, MPolyQuo}, T <: Union{MPolyRing, MPolyQuo}} = MPolyAnyMap{S, T, Nothing, elem_type(T)}
+affine_algebra_morphism_type(::Type{S}, ::Type{T}) where {S <: Union{MPolyRing, MPolyQuo},
+                                                          T <: Union{MPolyRing, MPolyQuo}} = morphism_type(S, T)
 
-affine_algebra_morphism_type(R::S, U::T) where {S, T} = affine_algebra_morphism_type(S, T)
+affine_algebra_morphism_type(R::S, U::T) where {S <: Ring, T} = affine_algebra_morphism_type(S, T)
+
+################################################################################
+#
+# Legacy construct
+#
+################################################################################
+
+#@doc Markdown.doc"""
+#    AlgebraHomomorphism(D::U, C::W, V::Vector{X}) where 
+#    {T, S <: MPolyElem{T},
+#    U <: Union{MPolyRing{T}, MPolyQuo{S}},
+#    W <: Union{MPolyRing{T}, MPolyQuo{S}},
+#    X <: Union{S, MPolyQuoElem{S}}}
+#   
+#Create the algebra homomorphism $D \rightarrow C$ defined by sending the $i$th generator of $D$ to the $i$th element of $V$. 
+#Allow types `MPolyRing` and `MPolyQuo` for $C$ and $D$ as well as entries of type `MPolyElem` and `MPolyQuoElem` for `X`.
+#Alternatively, use `hom(D::U, C::W, V::Vector{X})`.
+#
+## Examples
+#```jldoctest
+#julia> D, (t,) = PolynomialRing(QQ, ["t"])
+#(Multivariate Polynomial Ring in t over Rational Field, fmpq_mpoly[t])
+#
+#julia> R, (x, y) = PolynomialRing(QQ, ["x", "y"])
+#(Multivariate Polynomial Ring in x, y over Rational Field, fmpq_mpoly[x, y])
+#
+#julia> C, p = quo(R,  ideal(R, [x*y-1]))
+#(Quotient of Multivariate Polynomial Ring in x, y over Rational Field by ideal(x*y - 1), Map from
+#Multivariate Polynomial Ring in x, y over Rational Field to Quotient of Multivariate Polynomial Ring in x, y over Rational Field by ideal(x*y - 1) defined by a julia-function with inverse)
+#
+#julia> V = [p(y)]
+#1-element Vector{MPolyQuoElem{fmpq_mpoly}}:
+# y
+#
+#julia> P = hom(D, C, V)
+#Algebra homomorphism with
+#
+#domain: Multivariate Polynomial Ring in t over Rational Field
+#
+#codomain: Quotient of Multivariate Polynomial Ring in x, y over Rational Field by ideal(x*y - 1)
+#
+#defining images of generators: MPolyQuoElem{fmpq_mpoly}[y]
+#```
+#"""
+#function AlgebraHomomorphism(D::U, C::W, V::Vector{X}) where 
+#    {T, S <: MPolyElem{T},
+#    U <: Union{MPolyRing{T}, MPolyQuo{S}},
+#    W <: Union{MPolyRing{T}, MPolyQuo{S}},
+#    X <: Union{S, MPolyQuoElem{S}}}
+#   return hom(D, C, copy(V))
+#end
 
 ################################################################################
 #

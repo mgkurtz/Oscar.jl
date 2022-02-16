@@ -31,6 +31,7 @@ include("Rings/AbelianClosure.jl")
 
 include("Rings/MPolyAnyMap/MPolyRing.jl")
 include("Rings/MPolyAnyMap/MPolyQuo.jl")
+include("Rings/MPolyAnyMap/AffineAlgebras.jl")
 
 if Oscar.is_dev
   include("Examples/GITFans-test.jl")
