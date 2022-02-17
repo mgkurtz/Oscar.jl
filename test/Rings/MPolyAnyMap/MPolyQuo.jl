@@ -146,4 +146,38 @@
     @test (@inferred h(x*u)) == 2*x*u + 2*x*v
     @test (@inferred h(x*u)) == 2*x*u + 2*x*v
   end
+
+  Qi, i = quadratic_field(-1)
+  Qix, (x, y) = Qi["x", "y"]
+  I = ideal(Qix, elem_type(Qix)[])
+  Qix, = quo(Qix, I)
+  x = Qix(x)
+  y = Qix(y)
+ 
+  # composition with coefficient map
+  f = hom(Qix, Qix, hom(Qi, Qi, -i), [x^2, y^2])
+  g = hom(Qix, Qix, hom(Qi, Qi, -i), [x + 1, y + 1])
+  fg = @inferred f * g
+  @test fg(i) == g(f(i))
+  @test fg(x) == g(f(x))
+  @test fg(y) == g(f(y))
+
+  f = hom(Qix, Qix, z -> z + 1, [x^2, y^2])
+  g = hom(Qix, Qix, z -> z^2, [x + 1, y + 1])
+  fg = @inferred f * g
+  @test fg(i) == g(f(i))
+  @test fg(x) == g(f(x))
+  @test fg(y) == g(f(y))
+
+  # composition with arbitrary maps
+  h = hom(Qi, Qi, -i)
+  f = hom(Qix, Qi, [i, 0])
+  fh = @inferred f*h
+  @test fh(x) == h(f(x))
+  f = hom(Qix, Qi, h, [i, 0])
+  fh = @inferred f * h
+  @test fh(x) == h(f(x)) 
+  f = hom(Qix, Qi, x -> x, [i, 0])
+  @test fh(x) == h(f(x)) 
+  f = hom(Qix, Qi, x -> x, [i, 0])
 end

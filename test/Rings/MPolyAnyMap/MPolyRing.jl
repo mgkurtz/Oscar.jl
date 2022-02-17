@@ -154,4 +154,16 @@
   @test fg(i) == g(f(i))
   @test fg(x) == g(f(x))
   @test fg(y) == g(f(y))
+
+  # composition with arbitrary maps
+  h = hom(Qi, Qi, -i)
+  f = hom(Qix, Qi, [i, 0])
+  fh = @inferred f*h
+  @test fh(x) == h(f(x))
+  f = hom(Qix, Qi, h, [i, 0])
+  fh = @inferred f * h
+  @test fh(x) == h(f(x)) 
+  f = hom(Qix, Qi, x -> x, [i, 0])
+  @test fh(x) == h(f(x)) 
+  f = hom(Qix, Qi, x -> x, [i, 0])
 end
