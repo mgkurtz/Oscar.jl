@@ -242,7 +242,7 @@ include("Rings/mpoly-nested.jl")
 include("Rings/FractionalIdeal.jl")
 
 include("Rings/affine-algebra-homs.jl")
-include("Rings/mpoly-affine-algebra.jl")
+include("Rings/mpoly-affine-algebras.jl")
 
 include("Rings/MPolyMap/MPolyAnyMap.jl")
 include("Rings/MPolyMap/MPolyRing.jl")
