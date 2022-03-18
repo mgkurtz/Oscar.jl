@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Rationals · Oscar.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>Oscar.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search.html"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../index.html">Welcome to Oscar</a></li><li><span class="toctext">Rings</span><ul><li><a class="toctext" href="integer.html">Integers</a></li><li class="current"><a class="toctext" href="rational.html">Rationals</a><ul class="internal"><li><a class="toctext" href="#The-field-of-rationals-1">The field of rationals</a></li><li><a class="toctext" href="#Predicates-1">Predicates</a></li><li><a class="toctext" href="#Properties-1">Properties</a></li><li><a class="toctext" href="#Basic-arithmetic-1">Basic arithmetic</a></li></ul></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Rings</li><li><a href="rational.html">Rationals</a></li></ul><a class="edit-page" href="https://github.com/oscar-system/Oscar.jl/blob/master/docs/src/Rings/rational.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Rationals</span><a class="fa fa-bars" href="#"></a></div></header><div></div><ul><li><a href="rational.html#Rationals-1">Rationals</a></li><ul><li><a href="rational.html#The-field-of-rationals-1">The field of rationals</a></li><li><a href="rational.html#Predicates-1">Predicates</a></li><li><a href="rational.html#Properties-1">Properties</a></li><li><a href="rational.html#Basic-arithmetic-1">Basic arithmetic</a></li></ul></ul><h1><a class="nav-anchor" id="Rationals-1" href="#Rationals-1">Rationals</a></h1><p>Fractions are created in Julia with the double slash operator <code>//</code>. If a fraction is created from Julia integers, a Julia fraction results and if either the numerator or denominator is an Oscar integer, an Oscar fraction results.</p><p>Oscar has just a single rational fraction type <code>Oscar.fmpq</code>. The Oscar fraction type belongs to <code>Oscar.Rational</code>.</p><p>Julia has a parameterised type <code>Base.Rational{T}</code> for its own fractions, where <code>T</code> is the integer type the fractions are constructed from, e.g. <code>Base.Rational{Int}</code> and <code>Base.Rational{BigInt}</code>.</p><p>Note that conveniently, both of these Julia rational types belong to <code>Base.Rational</code>. Therefore in the description below we refer to <code>Oscar.Rational</code> for Oscar rational numbers and <code>Base.Rational</code> for any of the Julia rational number types.</p><p>The situation is described by the following diagram.</p><p><img src="../img/RationalTypes.svg" alt="alt text"/></p><h2><a class="nav-anchor" id="The-field-of-rationals-1" href="#The-field-of-rationals-1">The field of rationals</a></h2><p>The parent of an Oscar rational number is the field of rationals. It can be constructed from the ring of integers <code>ZZ</code> using the <code>FractionField</code> constructor.</p><p>For convenience, <code>QQ</code> is already defined to be the field of rational numbers.</p><pre><code class="language-julia-repl">julia&gt; S = FractionField(ZZ)
+Rational Field
+
+julia&gt; QQ
+Rational Field</code></pre><h3><a class="nav-anchor" id="Integer-constructors-1" href="#Integer-constructors-1">Integer constructors</a></h3><p>Oscar rationals can be created using <code>QQ</code>. Two arguments can be passed to specify numerator and denominator. If a single argument is passed, the denominator is set to <code>1</code>.</p><p>For convenience, <code>QQ</code> also accepts Julia integers and rationals, but will always construct an Oscar rational.</p><p>Naturally, Julia&#39;s double slash operator can also be used to construct fractions. However, unlike <code>QQ</code>, the double slash operator only constructs an Oscar rational if either the numerator or denominator is an Oscar integer.</p><p>An exception is raised if a fraction is constructed with denominator zero.</p><pre><code class="language-julia-repl">julia&gt; QQ(1, 2)
+1//2
+
+julia&gt; QQ(5)
+5
+
+julia&gt; ZZ(3)//5
+3//5
+
+julia&gt; 1//ZZ(7)
+1//7
+
+julia&gt; QQ(2//3)
+2//3
+
+julia&gt; ZZ(3)//0
+ERROR: DivideError: integer division error</code></pre><p>One can also construct the rational number <span>$0$</span> with the empty constructor:</p><pre><code class="language-julia-repl">julia&gt; QQ()
+0</code></pre><p>The following special constructors are also provided:</p><ul><li><code>zero(QQ)</code></li><li><code>one(QQ)</code></li></ul><pre><code class="language-julia-repl">julia&gt; zero(QQ)
+0
+
+julia&gt; one(QQ)
+1</code></pre><h2><a class="nav-anchor" id="Predicates-1" href="#Predicates-1">Predicates</a></h2><ul><li><code>iszero(n::Oscar.Rational) -&gt; Bool</code></li><li><code>isone(n::Oscar.Rational) -&gt; Bool</code></li><li><code>isunit(n::Oscar.Rational) -&gt; Bool</code></li></ul><p>The <code>isunit</code> function will return <code>true</code> iff <span>$n \neq 0$</span>.</p><pre><code class="language-julia-repl">julia&gt; iszero(QQ())
+true
+
+julia&gt; isone(one(QQ))
+true
+
+julia&gt; isunit(QQ(-2, 3))
+true</code></pre><h2><a class="nav-anchor" id="Properties-1" href="#Properties-1">Properties</a></h2><ul><li><code>numerator(n::Oscar.Rational) -&gt; Oscar.Integer</code></li><li><code>denominator(n::Oscar.Rational) -&gt; Oscar.Integer</code></li></ul><p>Return the numerator and denominator respectively, of <span>$n$</span>.</p><ul><li><code>sign(n::Oscar.Rational) -&gt; Oscar.Rational</code></li></ul><p>Returns the sign of <code>n</code>, i.e. <span>$n/|n|$</span> if <span>$n \neq 0$</span>, or <span>$0$</span> otherwise.</p><pre><code class="language-julia-repl">julia&gt; sign(QQ(2, 3))
+ERROR: MethodError: no method matching sign(::Nemo.fmpq)
+Closest candidates are:
+  sign(!Matched::Nemo.fmpz) at /home/travis/.julia/packages/Nemo/5aSWJ/src/flint/fmpz.jl:160
+  sign(!Matched::Missing) at missing.jl:79
+  sign(!Matched::Bool) at bool.jl:90
+  ...
+
+julia&gt; sign(QQ())
+ERROR: MethodError: no method matching sign(::Nemo.fmpq)
+Closest candidates are:
+  sign(!Matched::Nemo.fmpz) at /home/travis/.julia/packages/Nemo/5aSWJ/src/flint/fmpz.jl:160
+  sign(!Matched::Missing) at missing.jl:79
+  sign(!Matched::Bool) at bool.jl:90
+  ...
+
+julia&gt; sign(QQ(-1))
+ERROR: MethodError: no method matching sign(::Nemo.fmpq)
+Closest candidates are:
+  sign(!Matched::Nemo.fmpz) at /home/travis/.julia/packages/Nemo/5aSWJ/src/flint/fmpz.jl:160
+  sign(!Matched::Missing) at missing.jl:79
+  sign(!Matched::Bool) at bool.jl:90
+  ...</code></pre><ul><li><code>abs(n::Oscar.Rational) -&gt; Oscar.Rational</code></li></ul><p>Return the absolute value of <span>$n$</span>, i.e. <span>$n$</span> if <span>$n \geq 0$</span> and <span>$-n$</span> otherwise.</p><pre><code class="language-julia-repl">julia&gt; abs(QQ(-3, 2))
+3//2</code></pre><ul><li><code>height(n::Oscar.Rational) -&gt; Oscar.Integer</code></li></ul><p>Return the maximum of the absolute values of the numerator and denominator of <span>$n$</span>.</p><pre><code class="language-julia-repl">julia&gt; height(QQ(324987329, -8372492324))
+8372492324</code></pre><ul><li><code>floor(n::Oscar.Rational) -&gt; Oscar.Rational</code></li></ul><p>Return the greatest integer <span>$m$</span> such that <span>$m \leq n$</span>.</p><ul><li><code>ceil(n::Oscar.Rational) -&gt; Oscar.Rational</code></li></ul><p>Return the least integer <span>$m$</span> such that <span>$m \geq n$</span>.</p><pre><code class="language-julia-repl">julia&gt; floor(QQ(-2, 3))
+-1
+
+julia&gt; ceil(QQ(7, 2))
+4
+
+julia&gt; ceil(QQ(5))
+5</code></pre><h2><a class="nav-anchor" id="Basic-arithmetic-1" href="#Basic-arithmetic-1">Basic arithmetic</a></h2><p>Oscar provides the basic arithmetic operations <code>+</code>, <code>-</code> and <code>*</code> and comparison operators <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, including mixed operations between Julia and Oscar rationals and integers.</p><h3><a class="nav-anchor" id="[Exact-Division]-1" href="#[Exact-Division]-1">[Exact Division]</a></h3><ul><li><code>divexact(a::Oscar.Rational, b::Oscar.Rational) -&gt; Oscar.Rational</code></li><li><code>divexact(a::Oscar.Rational, b::Oscar.Integer) -&gt; Oscar.Rational</code></li><li><code>divexact(a::Oscar.Integer, b::Oscar.Rational) -&gt; Oscar.Rational</code></li></ul><p>In the first signature, one of the arguments may be a Julia rational and in the other two signatures the integers may be Julia integers.</p><p>Returns the quotient of <span>$a$</span> by <span>$b$</span>. Exact division raises an exception if division by zero is attempted.</p><pre><code class="language-julia-repl">julia&gt; divexact(QQ(2, 3), QQ(3, 5))
+10//9
+
+julia&gt; divexact(QQ(1, 3), ZZ(0))
+1//0
+
+julia&gt; divexact(QQ(3, 4), ZZ(5))
+3//20
+
+julia&gt; divexact(ZZ(6), QQ(2, 3))
+9
+
+julia&gt; divexact(QQ(1, 3), 5)
+1//15</code></pre><h3><a class="nav-anchor" id="Powering-1" href="#Powering-1">Powering</a></h3><ul><li><code>^(a::Oscar.Rational, b::Base.Int) -&gt; Oscar.Rational</code></li></ul><p>Powering can be accomplished naturally using the special caret infix operator:</p><pre><code class="language-julia-repl">julia&gt; QQ(5, 7)^32
+23283064365386962890625//1104427674243920646305299201
+
+julia&gt; QQ(1, 2)^(-2)
+4</code></pre><p>The following is allowed for convenience.</p><pre><code class="language-julia-repl">julia&gt; QQ(0)^0
+1</code></pre><div class="admonition note"><div class="admonition-title">Note</div><div class="admonition-text"><p>In Julia, the rational number <span>$0//1$</span> when raised to a negative power returns <span>$1//0$</span> to indicate that the value is undefined. Oscar raises an exception.</p></div></div><pre><code class="language-julia-repl">julia&gt; QQ(0)^-2
+1//0</code></pre><footer><hr/><a class="previous" href="integer.html"><span class="direction">Previous</span><span class="title">Integers</span></a></footer></article></body></html>
