@@ -41,7 +41,7 @@ function groebner_polyhedron(GB::Vector{<:MPolyElem}, val::TropicalSemiringMap, 
   return groebner_polyhedron(GB,val,w,pertubation=pertubation,skip_reduction=skip_reduction)
 end
 
-function groebner_polyhedron(GB::Vector{<:MPolyElem}, val::ValuationMap, w::Vector; pertubation::Vector=[], skip_reduction::Bool=false)
+function groebner_polyhedron(GB::Vector{<:MPolyElem}, val::TropicalSemiringMap, w::Vector; pertubation::Vector=[], skip_reduction::Bool=false)
   if !skip_reduction
     GB = interreduce_tropically(GB,val,w,pertubation=pertubation)
   end

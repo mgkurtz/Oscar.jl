@@ -24,7 +24,7 @@ Ktx,(x,y,z) = PolynomialRing(Kt,3)
 random_affine_linear_polynomials(3,Ktx,val_t)
 
 Ft,t = RationalFunctionField(FiniteField(32003)[1],"t")
-val_t = ValuationMap(Ft,t)
+val_t = TropicalSemiringMap(Ft,t)
 Ftx,(x,y,z) = PolynomialRing(Ft,3)
 random_affine_linear_polynomials(3,Ftx,val_t)
 =======#
@@ -71,25 +71,25 @@ Example:
 
 Kx,(x,y,z) = PolynomialRing(QQ,3)
 p = 32003
-val_p = ValuationMap(QQ,32003)
+val_p = TropicalSemiringMap(QQ,32003)
 I = ideal([x+p*y,y+p*z,x+y+z+1])
 tropical_points(I,val_p,local_precision=29)
 
 latest version of pAdicSolver
 # Kt,t = RationalFunctionField(QQ,"t")
-# val_t = ValuationMap(Kt,t)
+# val_t = TropicalSemiringMap(Kt,t)
 # Ktx,(x,y,z) = PolynomialRing(Kt,3)
 # I = ideal([x+t*y,y+t*z])
 # tropical_points(I,val_t)
 
 
 Fs,s = RationalFunctionField(GF(32003),"s")
-val_s = ValuationMap(Fs,s)
+val_s = TropicalSemiringMap(Fs,s)
 Fsx,(x,y,z) = PolynomialRing(Fs,3)
 I = ideal(Fsx,[x+s*y,y+s*z,x+y+z+1])
 tropical_points(I,val_s)
 =======#
-function tropical_points(I::MPolyIdeal,val::ValuationMap; local_precision::Int=32, primes=[32003,32009,32027,32029,32051,32057,32059,32063])
+function tropical_points(I::MPolyIdeal,val::TropicalSemiringMap; local_precision::Int=32, primes=[32003,32009,32027,32029,32051,32057,32059,32063])
 
   ###
   # Step 0: Check whether I has solutions.

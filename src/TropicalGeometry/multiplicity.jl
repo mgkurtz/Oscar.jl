@@ -7,7 +7,7 @@
 ###
 
 
-function multiplicity(I,val::ValuationMap{K,p} where {K,p},w::Vector{Int})
+function multiplicity(I,val::TropicalSemiringMap{K,p} where {K,p},w::Vector{Int})
   return multiplicity(initial(I, val, w))
 end
 
@@ -23,6 +23,7 @@ Kx,(x1,x2,x3,x4,x5) = PolynomialRing(QQ,5)
 inI = ideal([23*x1*x3+33*x1^11*x5,-22*x3*x4+44*x2^8*x5,-5*x2^3*x4+33*x5^2])
 multiplicity(inI)
 =======#
+import ..PlaneCurveModule: multiplicity
 function multiplicity(inI::MPolyIdeal; skip_groebner_basis_computation::Bool=false)
   ###
   # Step 1: Compute the homogeneity space and identify the pivots (and non-pivots) of its equation matrix in rref

@@ -137,12 +137,11 @@ import Random
 K,s = RationalFunctionField(QQ,"s");
 Kx,(x1,x2,x3,x4) = PolynomialRing(K,4);
 val = TropicalSemiringMap(K,s);
->>>>>>> TropicalGeometry: tropical_variety, moved from traversal.jl to variety.jl + storing data in attributes now
 I = ideal([x1-s*x2+(s+1)*x3,3*x2-s^2*x3+(s^2+1)*x4]);
 Random.seed!(3847598273423);
 TropI = tropical_variety(I,val)
 =======#
-function tropical_variety(I::MPolyIdeal, val::ValuationMap, convention::Union{typeof(min),typeof(max)}=min)
+function tropical_variety(I::MPolyIdeal, val::TropicalSemiringMap, convention::Union{typeof(min),typeof(max)}=min)
 
   ###
   # Part 0: Preprocessing
@@ -395,7 +394,7 @@ export facet_points
 # infinity: debugging functions for the tropical traversal
 ###
 
-function check_tropical_link_output(G::Vector,val::ValuationMap,point_to_traverse::Vector{fmpq},directions_to_traverse::Vector)
+function check_tropical_link_output(G::Vector,val::TropicalSemiringMap,point_to_traverse::Vector{fmpq},directions_to_traverse::Vector)
   # Test 1: check whether initial forms of G are non-monomial
   for direction_to_traverse in directions_to_traverse
     for (i,initial_g) in enumerate(initial(G,val,point_to_traverse,pertubation=direction_to_traverse))

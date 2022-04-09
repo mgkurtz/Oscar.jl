@@ -113,7 +113,7 @@ julia> Ktxy, (x,y) = PolynomialRing(Kt,["x", "y"]);
 
 julia> f = t*x+t*y+1;
 
-julia> val_t = ValuationMap(Kt,t);
+julia> val_t = TropicalSemiringMap(Kt,t);
 
 julia> initial(f,val_t,w)       # polynomial over QQ
 
@@ -125,7 +125,7 @@ julia> Ktxy, (x,y) = PolynomialRing(Kt,["x", "y"]);
 
 julia> f = t*x+t*y+1;
 
-julia> val_t = ValuationMap(Kt,t);
+julia> val_t = TropicalSemiringMap(Kt,t);
 
 julia> initial(f,val_t,w)       # polynomial over QQ
 1
@@ -226,7 +226,7 @@ julia> Cyclic5Homogenized_Kt = ideal([change_coefficient_ring(Kt,f) for f in gen
 
 julia> Katsura5Homogenized_Kt = ideal([change_coefficient_ring(Kt,f) for f in gens(Katsura5Homogenized)]);
 
-julia> val_t = ValuationMap(Kt,t); # t-adic valuation
+julia> val_t = TropicalSemiringMap(Kt,t); # t-adic valuation
 
 julia> initial(Cyclic5Homogenized_Kt, val_t, w) # same leading monomials as for val_2 and val_3
 

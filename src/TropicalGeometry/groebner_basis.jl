@@ -115,7 +115,7 @@ end
 
 
 # checks whether the ideal is homogeneous if val is non-trivial or w has negative entries
-function check_legality(I::MPolyIdeal, val::ValuationMap, w::Vector)
+function check_legality(I::MPolyIdeal, val::TropicalSemiringMap, w::Vector)
 
   is_weight_vector_nonnegative = true
   for wi in w
@@ -157,7 +157,7 @@ Katsura5Homogenized = ideal([-x0+x1+2*x2+2*x3+2*x4+2*x5,
                              -x0*x2+2*x1*x2+2*x2*x3+2*x3*x4+2*x4*x5,
                              x2^2-x0*x3+2*x1*x3+2*x2*x4+2*x3*x5,
                              2*x2*x3-x0*x4+2*x1*x4+2*x2*x5]);
-val = ValuationMap(QQ,2);
+val = TropicalSemiringMap(QQ,2);
 w = [0,0,0,0,0,0];
 G = groebner_basis(Cyclic5Homogenized, val, w)
 # G = groebner_basis(Katsura5Homogenized, val, w)
@@ -168,13 +168,13 @@ Ks,s = RationalFunctionField(QQ,"s");
 Ksx,(x0,x1,x2,x3,x4,x5) = PolynomialRing(Ks,6);
 Cyclic5Homogenized_Ks = ideal([change_coefficient_ring(Ks,f) for f in gens(Cyclic5Homogenized)]);
 Katsura5Homogenized_Ks = ideal([change_coefficient_ring(Ks,f) for f in gens(Katsura5Homogenized)]);
-val = ValuationMap(Ks,s); # t-adic valuation
+val = TropicalSemiringMap(Ks,s); # t-adic valuation
 w = [0,0,0,0,0,0];
 G = groebner_basis(Cyclic5Homogenized_Ks, val, w)
 # G = groebner_basis(Katsura5Homogenized_Ks, val, w)
 
 =======#
-function interreduce_tropically(G::Vector{<:MPolyElem}, val::ValuationMap, w::Vector; pertubation::Vector=[])
+function interreduce_tropically(G::Vector{<:MPolyElem}, val::TropicalSemiringMap, w::Vector; pertubation::Vector=[])
 
   # println("================================================== inside interreduce_tropically")
   # println(G)

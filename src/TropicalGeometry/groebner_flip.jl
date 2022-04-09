@@ -7,7 +7,7 @@
 #=======
 groebner flip
 Example:
-val = ValuationMap(QQ,2)
+val = TropicalSemiringMap(QQ,2)
 Kx,(x1,x2,x3,x4) = PolynomialRing(QQ,4)
 I = ideal([x1-2*x2+3*x3,3*x2-4*x3+5*x4])
 w = [3//2,0,3//2,0]
@@ -16,7 +16,7 @@ w = [2,0,2,0]
 u = [-1,0,0,0]
 groebner_flip(G,val,w,u)
 =======#
-function groebner_flip(G::Vector{<:MPolyElem},val::ValuationMap,w::Vector,v::Vector,u::Vector)
+function groebner_flip(G::Vector{<:MPolyElem},val::TropicalSemiringMap,w::Vector,v::Vector,u::Vector)
 
   # workaround due to critical reduce bug
   # https://github.com/oscar-system/Singular.jl/issues/416

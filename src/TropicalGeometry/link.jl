@@ -98,7 +98,7 @@ export pivots
 
 
 @doc Markdown.doc"""
-    tropical_link(I::MPolyIdeal, val::ValuationMap, w::Vector)
+    tropical_link(I::MPolyIdeal, val::TropicalSemiringMap, w::Vector)
 
 Computes the tropical link of `I` around `w`, i.e., returns a minimal array of vectors `L` such that for every maximal Groebner polyhedron $\sigma\in\Trop(I)$ containing `w` there is a $u$ in `L` such that $w+\varepsilon*u\in\sigma$ for $\varepsilon>0$ sufficiently small.
 
@@ -111,23 +111,23 @@ julia> Kx,(x1,x2,x3,x4) = PolynomialRing(QQ,4);
 
 julia> I = ideal([x1 - 2*x2 + 3*x3, 3*x2 - 4*x3 + 5*x4]);
 
-julia> val_2 = ValuationMap(QQ,2);
+julia> val_2 = TropicalSemiringMap(QQ,2);
 
 julia> w2_1 = [2,0,2,0];
 
 julia> w2_2 = [0,1,0,1];
 
-julia> val_3 = ValuationMap(QQ,3);
+julia> val_3 = TropicalSemiringMap(QQ,3);
 
 julia> w3_1 = [0,0,1,1];
 
 julia> w3_2 = [1,1,0,0];
 
-julia> val_5 = ValuationMap(QQ,5);
+julia> val_5 = TropicalSemiringMap(QQ,5);
 
 julia> w5 = [1,1,1,0];
 
-julia> val_7 = ValuationMap(QQ,7);
+julia> val_7 = TropicalSemiringMap(QQ,7);
 
 julia> w7 = [0,0,0,0];
 
@@ -145,7 +145,7 @@ julia> tropical_link(I,val_5,w5)
 
 ```
 """
-function tropical_link(I::MPolyIdeal, val::ValuationMap, w::Vector; local_precision::Integer=19)
+function tropical_link(I::MPolyIdeal, val::TropicalSemiringMap, w::Vector; local_precision::Integer=19)
   tl = tropical_link(initial(I,val,w),local_precision=local_precision)
   if convention(val)==max
     tl *= -1
