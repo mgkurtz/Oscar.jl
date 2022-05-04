@@ -7,7 +7,7 @@ CurrentModule = Oscar
 Some rings and example elements of those rings.
 Note, that if there is some canonical embedding of one ring `R` into another ring `S` and `r` is an element of `r`, usually `S(r)` embeds `r` into `S`. Especially this always works with `R` being the ring of integers `ZZ`. Likewise you can embed Julia’s native integers. So both `S(ZZ(42))` and `S(42)` work and yield the same element of `S`.
 
-## The rings $\mathbb Z$, $\mathbb Q$, $\bar{\mathbb Q}$, $\mathbb R$ and $\mathbb C$
+## $\mathbb Z$, $\mathbb Q$, $\bar{\mathbb Q}$, $\mathbb R$ and $\mathbb C$
 Let `x` be defined by `_, x = PolynomialRing(ZZ)` or the like.
 
 | Symbol            | Name in Oscar                           | Example Elements         |
@@ -19,7 +19,7 @@ Let `x` be defined by `_, x = PolynomialRing(ZZ)` or the like.
 | $\mathbb R$ [^2]  | `RR = `[`Nemo.RealField`](@ref)`()`     | $\sqrt2\approx$`sqrt(RR(2))`, $\varphi\approx$`roots(x^2+x+1, RR)[2]`, $0.1\approx$`RR("0.1")`, $\frac23\pm0.001\approx$`RR(QQ(2,3)) + RR("0 +/- 0.001")` |
 | $\mathbb C$ [^2]  | `CC_ = `[`Nemo.ComplexField`](@ref)`()` | $\sqrt2\approx$`sqrt(CC_(2))`, $\varphi\approx$`roots(x^2+x+1, CC_)[2]`, $0.1+0.3\mathrm i\approx$`CC_("0.1")+CC_("0.3")*onei(CC_)`, $0.1+0.3\mathrm i\pm0.001\pm0.001\mathrm i\approx$`CC_("0.1 +/- 0.001") + CC_("0.3 +/- 0.001")*onei(CC_)` |
 
-## The rings $\mathbb Z/n\mathbb Z$, $\mathbb F_p$, $\mathbb F_{p^n}$, $\mathbb Z_p$, $\mathbb Q_p$, $\mathbb Z_{p^n}$, $\mathbb Q_{p^n}$
+## $\mathbb Z/n\mathbb Z$, $\mathbb F_p$, $\mathbb F_{p^n}$, $\mathbb Z_p$, $\mathbb Q_p$, $\mathbb Z_{p^n}$, $\mathbb Q_{p^n}$
 Let $p$ be a prime and $n$ a natural number. Additionaly choose some `prec::Int` as precision.
 
 | Symbol                 | Name in Oscar                                  | Example Elements                    |
