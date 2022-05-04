@@ -36,7 +36,7 @@ integers whose size is usually only limited by available memory. While the
 Oscar currently has the integer type `fmpz`, which for performance
 reasons scales internally from machine integers to GMP multiprecision integers.
 
-## The ring of integers
+## [The ring of integers](@id ZZ)
 
 Every object in Oscar representing a mathematical element has a parent. This is
 an object encoding information about where that element belongs.
