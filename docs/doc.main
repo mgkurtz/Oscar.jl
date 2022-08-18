@@ -130,6 +130,7 @@
       "Modules Over Multivariate Rings"=> [
          "CommutativeAlgebra/ModulesOverMultivariateRings/intro.md",
          "CommutativeAlgebra/modules.md",
+         "CommutativeAlgebra/free_modules.md",
          "CommutativeAlgebra/ModulesOverMultivariateRings/free_modules.md",
          "CommutativeAlgebra/ModulesOverMultivariateRings/subquotients.md",
          "CommutativeAlgebra/ModulesOverMultivariateRings/module_operations.md",
