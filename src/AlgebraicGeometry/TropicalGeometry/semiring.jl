@@ -462,18 +462,6 @@ end
 #
 ################################################################################
 
-# The generic functions use R(1) and R(0), which is bad.
-one(R::AbstractAlgebra.Generic.PolyRing{<:TropicalSemiringElem}) = R(one(base_ring(R)))
-
-zero(R::AbstractAlgebra.Generic.PolyRing{TropicalSemiringElem{S}}) where {S} = R(zero(base_ring(R)))
-
-function Oscar.polynomial_ring(R::TropicalSemiring, s::Symbol; cached::Bool = true)
-   T = elem_type(R)
-   parent_obj = Oscar.Generic.PolyRing{T}(R, s, cached)
-
-   return parent_obj, parent_obj([zero(R), one(R)])
-end
-
 # Oscar will print zero sums as 0, which we do not want.
 # So we have to adjust the printing code for polynomials
 function AbstractAlgebra.expressify(@nospecialize(a::PolyRingElem{<:TropicalSemiringElem}),
